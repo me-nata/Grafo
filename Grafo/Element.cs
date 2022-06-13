@@ -1,6 +1,7 @@
 public abstract class Element {
     public string label;
     public bool   color;
+    public int coloring = 0;
 
     public Element(string label, bool color) {
         this.label = label;

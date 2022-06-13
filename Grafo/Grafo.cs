@@ -27,6 +27,20 @@ public abstract class Grafo<T> {
         vertices.ForEach(vertice => vertice.alternPaint());
     }
 
+    public void Show() {
+        int i = 0;
+        Console.WriteLine("Posicao\tConecta");
+        foreach(var v in vertices){
+            Console.Write($"({i}) -> [");
+            
+            foreach(var adj in v.adjacentes) {
+                int pos = vertices.IndexOf(adj.vertice);
+                Console.Write($" {pos} ");
+            }
+            Console.WriteLine("]");
+            i++;
+        }
+    }
     
     //LARGURA
     public List<T> BuscaEmLargura(int start) {
@@ -94,7 +108,31 @@ public class GrafoDirecionado<T> : Grafo<T> {
     public void Connect(Vertice<T> v1, Vertice<T> v2, float? weight=null){
         v1.Connect(v2, this.ponderado, weight);
     }
+
+    public void Connect(T value1, T value2, float? weight=null) {
+        Vertice<T>? v1 = null, v2 = null;
+        foreach(var v in vertices) {
+            if(v.content!.Equals(value1)) {
+                v1 = v; 
+            } else if(v.content!.Equals(value2)) {
+                v2 = v;
+            }
+        }
+
+        this.Connect(v1!, v2!, weight);
+    }
     
+    public bool Contain(T value) {
+        bool output = false;
+        for(int i = 0; i < vertices.Count && !output; i++) {
+            if(vertices[i].Equals(value)) {
+                output=true;
+            }
+        }
+
+        return output;
+    }
+
     public GrafoDirecionado(bool ponderado) : base(ponderado) {}
 }
 
